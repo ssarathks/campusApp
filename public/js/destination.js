@@ -1,20 +1,45 @@
-var config = {
-  apiKey: "AIzaSyADnYJh16w33KzFeYhJJOleSi7aZcMLFAw",
-  authDomain: "campusapp-df124.firebaseapp.com",
-  databaseURL: "https://campusapp-df124.firebaseio.com",
-  projectId: "campusapp-df124",
-  storageBucket: "campusapp-df124.appspot.com",
-  messagingSenderId: "168038743226",
-  appId: "1:168038743226:web:d2ea696a173eaeb61d9683",
-  measurementId: "G-JS8G1X2H2Y"
+// INITIALIZE THE FIREBASE (utility.js)
+initFirebase();
+
+// CHECK THE STATE OF THE USER.
+// IF USER IS LOGGED IN, REDIRECT TO destination page
+// ELSE CONTINUE WITH LOGIN PAGE
+getAuthState(function(user) {
+  var data = user.toJSON();
+
+  var userEmail = document.getElementById('user-email');
+  var userEmailVerified = document.getElementById('user-email-verified');
+  var userAnonymous = document.getElementById('user-anonymous');
+  var userUID = document.getElementById('user-uid');
+  
+  if (userEmail) {
+    userEmail.innerHTML = data.email;
+  }
+
+  if (userEmailVerified) {
+    userEmailVerified.innerHTML = data.emailVerified;
+  }
+
+  if (userAnonymous) {
+    userAnonymous.innerHTML = data.isAnonymous;
+  }
+
+  if (userUID) {
+    userUID.innerHTML = data.uid;
+  }
+});
+
+var logoutUser = function() {
+  firebase
+    .auth()
+    .signOut()
+    .then(function() {
+      window.location = "index.html";
+    })
+    .catch(function(error) {
+      // An error happened.
+    });
 };
-firebase.initializeApp(config);
 
-var user = firebase.auth().currentUser;
-
-if (user) {
-  console.log("theres user");
-} else {
-  // No user is signed in.
-  console.log("no user");
-}
+// REGISTER EVENTS
+document.getElementById("btn-logout").addEventListener("click", logoutUser);

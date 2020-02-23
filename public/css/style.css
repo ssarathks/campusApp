@@ -1,0 +1,57 @@
+.wrap-app {
+  width: 500px;
+  margin: 3em auto;
+  box-shadow: 0px 0px 10px #d8d8d8;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.wrap-app h1 {
+  font-size: 22px;
+}
+.message {
+  color: #469e46;
+  margin: 0;
+}
+.txt-c {
+  text-align: center;
+}
+.login-head {
+  background-color: #00a4fe;
+  height: 60px;
+  margin-bottom: 20px;
+}
+.inp {
+  width: 100%;
+  display: block;
+  background-color: #e0e0e0;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #414141;
+  margin-bottom: 20px;
+  outline: none;
+}
+.frm-wrap {
+  padding: 20px 40px;
+  text-align: center;
+}
+.wrap-login h1 {
+  font-size: 22px;
+  margin: 0;
+}
+.btn {
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: #03a3fe;
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 50px;
+  margin: 20px 0;
+}
+.wrap-user span {
+  font-weight: 400;
+}
+.wrap-user {
+  text-align: left;
+  font-weight: 700;
+}
