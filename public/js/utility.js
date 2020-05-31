@@ -11,6 +11,7 @@ function initFirebase() {
   };
 
   firebase.initializeApp(config);
+    var db = firebase.firestore();
 }
 
 function getAuthState (callback) {

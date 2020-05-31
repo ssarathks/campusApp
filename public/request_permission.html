@@ -99,6 +99,68 @@
        <div class="" id="welcome_sub_heading">
 
        </div>
+
+       <div class="" id="request_permission_form_div">
+        <div class="" id="request_permission_header_div">
+         <h2>Request Permission Form</h2>
+        </div>
+        <div class="" id="request_permission_subhead_div">
+         <p>Create your request here!</p>
+        </div>
+        <div class="">
+          <form action="destination.html" method="post" id="request_permission_form">
+            <div>
+              <p class="inline_block_item">Permission For :</p>
+              <select id="permission_for" class="float_right_item input_item">
+                <option value="placement">Placement</option>
+                <option value="talk">Talk</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div id="request_permission_textarea_div">
+              <p class="inline_block_item">Enter Request Description:</p>
+              <textarea class="float_right_item" name="" id="request_permission_textarea" cols="" rows="" value="this is value"></textarea>
+            </div>
+            <br>
+            
+            <div>
+              <p>Select Preffered Dates:</p>
+            </div>
+            <br>
+            <div>
+              <p class="inline_block_item">Preffered Date 1 : </p>
+              <input class="float_right_item input_item" type="date" name="" value="" id="request_date1">
+            </div>
+              
+            <div>
+              <p class="inline_block_item">Preffered Date 2 :</p>
+              <input class="float_right_item input_item" type="date" name="" value=""id="request_date2">
+            </div>
+              
+            <div>
+              <p class="inline_block_item">Preffered Date 3 :</p>
+              <input class="float_right_item input_item" type="date" name="" value="" id="request_date3">
+            </div>
+            
+            <div>
+              <p class="inline_block_item">Preffered Date 4 :</p>
+              <input class="float_right_item input_item" type="date" name="" value="" id="request_date4">
+            </div>
+            
+            <div>
+              <p class="inline_block_item">Preffered Date 5 :</p>
+              <input class="float_right_item input_item" type="date" name="" value="" id="request_date5">
+            </div>
+              
+  
+           </div>
+           <div class="autocenter">
+             <button type="submit" class="btn btn-success" id="request_permission_submit_button">Submit</button>
+           </div>
+          </form>
+        </div>
        
      </div>
 
@@ -114,10 +176,6 @@
 
          <button type="button" name="button" class="btn" id="btn-logout">logout</button>
        </div>
-     </div>
-
-     <div class="">
-       <p id="valpara"></p>
      </div>
    </div>
 

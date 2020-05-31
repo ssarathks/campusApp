@@ -16,7 +16,7 @@ getAuthState(function(user) {
 // ATTACH FORM SUBMIT EVENTLISTENER
 document.getElementById("loginform").addEventListener("submit", function(e) {
   e.preventDefault();
-  
+
   var email = document.getElementById("inp-email").value;
   var password = document.getElementById("inp-password").value;
 
@@ -37,3 +37,5 @@ document.getElementById("loginform").addEventListener("submit", function(e) {
       console.log("[login] > error", error);
     });
 });
+
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
