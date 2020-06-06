@@ -9,8 +9,9 @@ function initFirebase() {
     appId: "1:168038743226:web:d2ea696a173eaeb61d9683",
     measurementId: "G-JS8G1X2H2Y"
   };
-
-  firebase.initializeApp(config);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+ }
     var db = firebase.firestore();
 }
 

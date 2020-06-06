@@ -9,91 +9,183 @@ initFirebase();
 
 var db = firebase.firestore();
 
-
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1)  
+}
 getAuthState(function(user) {
 
   // LOGGED IN USER DATAS
 
   var data = user.toJSON();
-
+  //
+  // var userEmail = document.getElementById('user-email');
+  // var userEmailVerified = document.getElementById('user-email-verified');
+  // var userAnonymous = document.getElementById('user-anonymous');
+  // var userUID = document.getElementById('user-uid');
+  // var welcome_heading = document.getElementById('welcome_heading');
+  //
+  // if (userEmail) {
+  //   userEmail.innerHTML = data.email;
+  // }
+  //
+  // if (userEmailVerified) {
+  //   userEmailVerified.innerHTML = data.emailVerified;
+  // }
+  //
+  // if (userAnonymous) {
+  //   userAnonymous.innerHTML = data.isAnonymous;
+  // }
+  //
+  // if (userUID) {
+  //   userUID.innerHTML = data.uid;
+  // }
   if (welcome_heading) {
     welcome_heading.innerHTML = "Welcome " +data.email;
   }
-  
+
+
+  //RETREIVING
+
+  // db.collection("user_info").doc(data.uid).get().then((querySnapshot) => {
+  //     querySnapshot.forEach((item) => {
+  //         var new_p = document.createElement('p');
+  //         new_p.id = doc.id + item;
+  //         content_div.appendChild(new_p);
+  //         document.getElementById(new_p.id).innerHTML = item;
+  //         console.log(`${doc.id} => ${doc.data()}`);
+  //     });
+  // });
+
+  var welcome_sub_heading = document.getElementById('welcome_sub_heading');
+  var menu_content = document.getElementById('menu-content');
+
+
   var doc_ref = db.collection("user_info").doc(data.uid);
   doc_ref.get().then(function(doc){
     if (doc.exists){
       // console.log("Document data : ",doc.data().account_type);
       var account_type = doc.data().account_type;
+      if (account_type == 'student'){
+        
+      }
 
       //IF ADMIN LOGIN
-      if (account_type == 'admin') {
-    
+      else if (account_type == 'admin') {      
+
+        console.log("reached");
+        search_button = document.getElementById('search_button')
+        search_by_company = document.getElementById('search_by_company')
+        search_by_skill = document.getElementById('search_by_skill')
+        search_field = document.getElementById('search_field')
+        search_button.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (!search_by_company.checked && !search_by_skill.checked) {
+            alert("Please select atleast one option")
+          }
+          if (search_by_company.checked) {
+            search_term = search_field.value
+            search_term_array = [search_term.toLowerCase(),search_term.toUpperCase(),capitalize(search_term)]
+            console.log(search_term_array);
+            
+            db.collection("user_info")
+              .where("account_type", "==", "alumni")
+              .where('company_name', 'in', search_term_array)
+              .get()
+              .then(function(querySnapshot) {
+                  querySnapshot.forEach(function(doc) {
+                      // doc.data() is never undefined for query doc snapshots
+                      var name = doc.data().name;
+                      var branch = doc.data().branch;
+                      var mobile_no = doc.data().mobile_no;
+                      var year_of_graduation = doc.data().year_of_graduation;
+                      var present_status = doc.data().present_status;
+                      var company_name = doc.data().company_name;
+                      var technologies_known = doc.data().technologies_known;
+                      var technologies_working_on = doc.data().technologies_working_on;
+                      content_body.innerHTML=""
+                      content_body.innerHTML+=`<h2>Search Results</h2>`
+                      //search result div is given the style of request container div
+                      content_body.innerHTML+=
+                      `<div class="request_container_div" id="search_result_div`+doc.id+`">
+                        </div>`
+   
+                      var search_result_div = document.getElementById('search_result_div'+doc.id);
+                      
+                      if (name) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                               <h4 id="">Name : `+name+`</h4>
+                          </div>`
+                      }
+                      if (branch) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                               <p>Branch : `+branch+`<p>
+                          </div>`
+                      }
+                      if (year_of_graduation) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                               <p>Year of Graduation : `+year_of_graduation+`<p>
+                          </div>`
+                      }
+                      if (present_status) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                               <p>Present Status : `+present_status+`<p>
+                          </div>`
+                      }
+                      if (company_name) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                          <b><p>Company Name : `+company_name+`<p></b>
+                          </div>`
+                      }
+                      if (mobile_no) {
+                        search_result_div.innerHTML+=
+                        `<div class="" id="">
+                          <p>Mobile No : `+mobile_no+`<p>
+                          </div>`
+                      }
+                      if (technologies_known) {
+                        var index = 0
+                        search_result_div.innerHTML+=
+                        `<div class="" id="technologies_known_div">
+                          <span>Technologies Known :</span>
+                          </div>`
+                        technologies_known_div = document.getElementById('technologies_known_div');
+                          while(technologies_known[index] != undefined){
+                            technologies_known_div.innerHTML += `<span>`+technologies_known[index]+`,</span>`
+                            index = index+1
+                          }
+                      }
+                      if (technologies_working_on) {
+                        var index = 0
+                        search_result_div.innerHTML+=
+                        `<div class="" id="technologies_working_on_div">
+                          <span>Technologies Known :</span>
+                          </div>`
+                          technologies_working_on_div = document.getElementById('technologies_working_on_div');
+                          while(technologies_working_on[index] != undefined){
+                            technologies_working_on_div.innerHTML += `<span>`+technologies_working_on[index]+`,</span>`
+                            index = index+1
+                          }
+                      }
+                      console.log(doc.id, " => ", doc.data());
+                  });
+              })
+              .catch(function(error) {
+                  console.log("Error getting documents: ", error);
+              });
+
+            
+            }
+          
+        })        
       }
 
       //IF ALUMNI LOGIN
       else if (account_type == 'alumni') {
-        //SETTING SUBHEADING
-        welcome_sub_heading.innerHTML = "<p>Welcome admin.This is the admin and alumni portal of the campusapp</p>";
-
-        //SETTING SIDEMENU CONTENT
-        menu_content.innerHTML += `<li id='request_permission_item'><a href='#'><i class='fa fa-dashboard fa-lg'></i> Requests Permission</a></li>`;
-        menu_content.innerHTML += `<li><a href='#'><i class='fa fa-dashboard fa-lg'></i> Search Students</a></li>`;
-        menu_content.innerHTML += `<li><a href='#'><i class='fa fa-dashboard fa-lg'></i> Add Internship</a></li>`;
-        menu_content.innerHTML += `<li><a href='#'><i class='fa fa-dashboard fa-lg'></i> Add off Campus Placement</a></li>`;
-
-
-        //******** */
-        //REQUEST PERMISSION EVENT OF ALUMNI
-        //******** */
-        //REDIRECTIGN TO REQUESTPERMISSIO.HTML PAGE
-        document.getElementById('request_permission_item').addEventListener("click", function(e) {
-          e.preventDefault();
-          window.location.href = 'request_permission.html'
-        });
-        console.log();
-        
-        //SUBMIT EVENT LISTENER
-        document.getElementById('request_permission_form').addEventListener("submit", function(e) {
-          e.preventDefault();
-          var permission_for = document.getElementById('permission_for').value;
-          var request_description = document.getElementById('request_permission_textarea').value;
-          var request_dates = []
-          for(var i = 0 , j = 0; i < 5 ; i++){
-            if(document.getElementById('request_date'+(i+1)).value != ""){
-              request_dates[j] = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('request_date'+(i+1)).value));
-              j+=1;
-            }
-          }
-          
-          // Add a new document with a generated id.
-          var new_permission_doc = db.collection("permissions").doc();
-
-          new_permission_doc.set({
-            permission_for : permission_for,
-            request_description : request_description,
-            approved : false,
-            posted_by : db.doc("/user_info/"+data.uid),
-            posted_on : firebase.firestore.Timestamp.fromDate(new Date(Date.now()))
-          })
-          .then(function() {
-            if(request_dates.length != 0){
-              new_permission_doc.set({
-                dates_preffered : request_dates
-              }, {merge : true});
-            }
-            alert("Submitted Successfully")
-          })
-          .catch(function(error) {
-          console.error("Error adding document: ", error);
-          });
-          
-          
-          
-        });
-
-        
-
         
 
       }
