@@ -79,10 +79,13 @@ getAuthState(function(user) {
         search_field = document.getElementById('search_field')
         search_button.addEventListener('click', function (e) {
           e.preventDefault();
+          content_body.innerHTML=""
+          content_body.innerHTML+=`<h2>Search Results</h2>`
           if (!search_by_company.checked && !search_by_skill.checked) {
             alert("Please select atleast one option")
           }
           if (search_by_company.checked) {
+            
             search_term = search_field.value
             search_term_array = [search_term.toLowerCase(),search_term.toUpperCase(),capitalize(search_term)]
             console.log(search_term_array);
@@ -102,8 +105,6 @@ getAuthState(function(user) {
                       var company_name = doc.data().company_name;
                       var technologies_known = doc.data().technologies_known;
                       var technologies_working_on = doc.data().technologies_working_on;
-                      content_body.innerHTML=""
-                      content_body.innerHTML+=`<h2>Search Results</h2>`
                       //search result div is given the style of request container div
                       content_body.innerHTML+=
                       `<div class="request_container_div" id="search_result_div`+doc.id+`">
@@ -150,10 +151,10 @@ getAuthState(function(user) {
                       if (technologies_known) {
                         var index = 0
                         search_result_div.innerHTML+=
-                        `<div class="" id="technologies_known_div">
+                        `<div class="" id="technologies_known_div`+doc.id+`">
                           <span>Technologies Known :</span>
                           </div>`
-                        technologies_known_div = document.getElementById('technologies_known_div');
+                        technologies_known_div = document.getElementById('technologies_known_div'+doc.id);
                           while(technologies_known[index] != undefined){
                             technologies_known_div.innerHTML += `<span>`+technologies_known[index]+`,</span>`
                             index = index+1
@@ -162,10 +163,10 @@ getAuthState(function(user) {
                       if (technologies_working_on) {
                         var index = 0
                         search_result_div.innerHTML+=
-                        `<div class="" id="technologies_working_on_div">
+                        `<div class="" id="technologies_working_on_div`+doc.id+`">
                           <span>Technologies Known :</span>
                           </div>`
-                          technologies_working_on_div = document.getElementById('technologies_working_on_div');
+                          technologies_working_on_div = document.getElementById('technologies_working_on_div'+doc.id);
                           while(technologies_working_on[index] != undefined){
                             technologies_working_on_div.innerHTML += `<span>`+technologies_working_on[index]+`,</span>`
                             index = index+1

@@ -139,6 +139,7 @@ getAuthState(function(user) {
         document.getElementById('pending_requests_link').addEventListener("click", function(e) {
           e.preventDefault();
           content_body.innerHTML = "";
+          content_body.innerHTML += `<h3>Pending Requests</h3>`;
           db.collection("permissions").where("status", "==", "pending")
             .get()
             .then(function(querySnapshot) {
