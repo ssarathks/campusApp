@@ -23,8 +23,34 @@ function request_approve(id) {
       approved_date : approved_date.value
     })
     .then(function() {
-      alert("Approved successfully!");
-      location.reload(false);
+      var docRef = db.collection("permissions").doc(doc_id);
+      docRef.get().then(function(doc1) {
+          var name = doc1.data().permission_for
+          var description = doc1.data().request_description
+          var date = doc1.data().approved_date
+          var posted_by = doc1.data().posted_by
+          console.log(posted_by);
+          
+
+          // Add a new document with a generated id.
+          db.collection("events").add({
+            posted_by : posted_by,
+            title : name,
+            description : description,
+            date : date
+          })
+          .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+            alert("Approved successfully!");
+            location.reload(false);
+          })
+          .catch(function(error) {
+            console.error("Error adding document: ", error);
+          });
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+      
       console.log(document.getElementById('pending_requests_link'));
       
     })
